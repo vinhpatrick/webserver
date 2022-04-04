@@ -1,0 +1,114 @@
+{
+    "products": [
+        {
+            "name": "Iphone 13ProMax",
+            "description": "iPhone 13 Pro Max xứng đáng là một chiếc iPhone lớn nhất, mạnh mẽ nhất và có thời lượng pin dài nhất từ trước đến nay sẽ cho bạn trải nghiệm tuyệt vời, từ những tác vụ bình thường cho đến các ứng dụng chuyên nghiệp.",
+            "ratting": 5,
+            "category": "Điện Thoại",
+            "images": "assets/images/product-and-service/sp1.png",
+            "price": "2000000",
+            "originalPrice": "2500000",
+            "sold": 0,
+            "view": 0
+        },
+        {
+            "name": "Samsung Galaxy S22 Ultra 5G",
+            "description": "Galaxy S22 Ultra 5G chiếc smartphone cao cấp nhất trong bộ 3 Galaxy S22 series mà Samsung đã cho ra mắt. Tích hợp bút S Pen hoàn hảo trong thân máy, trang bị vi xử lý mạnh mẽ cho các tác vụ sử dụng vô cùng mượt mà và nổi bật hơn với cụm camera không viền độc đáo mang đậm dấu ấn riêng.",
+            "ratting": 5,
+            "category": "Điện Thoại",
+            "images": "assets/images/product-and-service/sp2.png",
+            "price": "2000000",
+            "originalPrice": "2500000",
+            "sold": 0,
+            "view": 0
+        },
+        {
+            "name": "Samsung Galaxy A52s 5G",
+            "description": "Samsung đã chính thức giới thiệu chiếc điện thoại Galaxy A52s 5G đến người dùng, đây phiên bản nâng cấp của Galaxy A52 5G ra mắt cách đây không lâu, với ngoại hình không đổi nhưng được nâng cấp đáng kể về thông số cấu hình bên trong.",
+            "ratting": 5,
+            "category": "Điện Thoại",
+            "images": "assets/images/product-and-service/sp3.png",
+            "price": "2000000",
+            "originalPrice": "2500000",
+            "sold": 0,
+            "view": 0
+        },
+        {
+            "name": "Laptop Acer Nitro 5 Gaming AN515",
+            "description": "Laptop Acer Nitro 5 Gaming AN515 57 5831 i5 (NH.QDGSV.003) là thế hệ laptop gaming mới của nhà Acer có nhiều thay đổi trong thiết kế. Hiệu năng vẫn giữ vững phong độ, tự tin mang đến cho game thủ trải nghiệm chơi game cực đã. ",
+            "ratting": 5,
+            "category": "Laptop",
+            "images": "assets/images/product-and-service/sp4.png",
+            "price": "2000000",
+            "originalPrice": "2500000",
+            "sold": 0,
+            "view": 0
+        },
+        {
+            "name": "Laptop Dell Vostro 3405 R5 3500U",
+            "description": "Dell Vostro 3405 R5 (V4R53500U003W1) là phiên bản laptop phổ thông với mức giá tầm trung dành cho học sinh, sinh viên hay dân văn phòng bởi thiết kế vẻ ngoài thanh lịch, sang trọng cùng bộ cấu hình ổn định nhờ con chip AMD, đáp ứng tối ưu mọi nhu cầu thiết yếu hằng ngày cho người dùng.",
+            "ratting": 5,
+            "category": "Laptop",
+            "images": "assets/images/product-and-service/sp5.png",
+            "price": "2000000",
+            "originalPrice": "2500000",
+            "sold": 0,
+            "view": 0
+        },
+        {
+            "name": "Máy tính bảng Samsung Galaxy Tab S8",
+            "description": "Samsung Galaxy Tab S8 ra mắt và vẫn giữ được đặc trưng của dòng Galaxy Tab S với cấu hình mạnh mẽ, màn hình hiển thị ổn cùng khả năng hỗ trợ bút S Pen hỗ trợ học tập làm việc tốt hơn.",
+            "ratting": 5,
+            "category": "Tablet",
+            "images": "assets/images/product-and-service/sp6.png",
+            "price": "2000000",
+            "originalPrice": "2500000",
+            "sold": 0,
+            "view": 0
+        },
+        {
+            "name": "Máy tính bảng iPad Pro M1 11 inch WiFi Cellular 512GB",
+            "description": "iPad Pro M1 11 inch WiFi Cellular 512GB (2021) có thiết kế sang trọng, màn hình công nghệ Liquid Retina cho hình ảnh hiển thị sắc nét cùng với con chip M1 mang lại hiệu năng vô cùng mạnh mẽ giúp bạn thỏa sức sáng tạo trong các tác vụ đồ họa nâng cao hay chơi game, giải trí tốt hơn nhờ các công nghệ nổi bật đi kèm.",
+            "ratting": 5,
+            "category": "Tablet",
+            "images": "assets/images/product-and-service/sp7.png",
+            "price": "2000000",
+            "originalPrice": "2500000",
+            "sold": 0,
+            "view": 0
+        },
+        {
+            "name": "Tai nghe Bluetooth True Wireless Galaxy Buds Pro Bạc ",
+            "description": "Thiết kế sang trọng, thời thượng cùng hộp sạc đồng nhất màu sắc đi kèm",
+            "ratting": 5,
+            "category": "Tai nghe",
+            "images": "assets/images/product-and-service/sp8.png",
+            "price": "2000000",
+            "originalPrice": "2500000",
+            "sold": 0,
+            "view": 0
+        },
+        {
+            "name": "Apple Watch S6 40mm viền nhôm dây silicone",
+            "description": "Apple Watch S6 mang đến những nâng cấp hữu ích để hỗ trợ người dùng một cách tối ưu nhất. Nổi bật trong số đó là chip xử lý S6 cải thiện hiệu năng, hệ điều hành watchOS 7 với nhiều tính năng mới hứa hẹn sẽ mang đến những trải nghiệm tốt hơn, thú vị hơn",
+            "ratting": 5,
+            "category": "Đồng hồ",
+            "images": "assets/images/product-and-service/sp9.png",
+            "price": "2000000",
+            "originalPrice": "2500000",
+            "sold": 0,
+            "view": 0
+        },
+        {
+            "name": "Samsung Galaxy Watch 3 41mm thép vàng dây da hồng",
+            "description": "Đồng hồ thông minh Samsung Galaxy Watch 3 41 mm sở hữu 2 nút bấm và vòng bezel xoay điều khiển vật lý, thay cho mặt xoay cảm ứng ở phiên bản Watch Active 2. Màn hình Super Amoled 1.2 inch cùng độ phân giải 360 x 360 pixels giúp hình ảnh hiển thị được chân thật, rõ nét. Thân đồng hồ được làm bằng thép cứng cáp, khác với Watch Active 2 được làm bằng nhôm. Dây đeo bằng da tạo cảm giác chắc chắn và dễ chịu cho người dùng khi đeo.",
+            "ratting": 5,
+            "category": "Đồng hồ",
+            "images": "assets/images/product-and-service/sp10.png",
+            "price": "2000000",
+            "originalPrice": "2500000",
+            "sold": 0,
+            "view": 0
+        }
+    ]
+}
