@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var commentSchema = new Schema({
-    rating: {
+    ratting: {
         type: Number,
+        required: true,
         min: 1,
         max: 5,
-        required: true
+
     },
     comment: {
         type: String,

@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 const productSchema = new Schema({
     name: {
         type: String,
-        require: true
+        required: true
     },
     description: {
         type: String,
-        require: true
+        required: true
     },
     rating: {
         type: Number,
@@ -18,7 +18,6 @@ const productSchema = new Schema({
     },
     category: {
         type: String,
-        require: true
     },
     images: {
         type: String,
