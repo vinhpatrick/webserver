@@ -109,6 +109,26 @@
             "originalPrice": "2500000",
             "sold": 0,
             "view": 0
-        }
+        },
+        {
+            "name": "Iphone 5s",
+            "description": "Test",
+            "rating": 4,
+            "category": "Tivi",
+            "images": "assets/images/product-and-service/sp3.png",
+            "price": 30,
+            "originalPrice": 20,
+            "sold": 20,
+            "view": 21,
+            "sizes":[
+                {"name":"xl",
+                "numberInStock":6
+                },
+                {"name":"xll",
+                "numberInStock":10
+                }
+            ] 
+    }
     ]
+    
 }

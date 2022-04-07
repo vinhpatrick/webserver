@@ -4,7 +4,7 @@ const Favorites = require('../models/favorites')
 
 exports.getFavoritesItems = async (req, res, next) => {
     try {
-        const favorites = await Favorites.find({ "user": req.user._id })
+        const favorites = await Favorites.find({ user: req.user._id })
             .populate('user')
             .populate('dishes')
         res.statusCode = 200;
@@ -17,7 +17,7 @@ exports.getFavoritesItems = async (req, res, next) => {
 
 exports.addFavoritesItems = async (req, res, next) => {
     try {
-        const favorites = await Favorites.findOne({ "user": req.body._id })
+        const favorites = await Favorites.findOne({ user: req.body._id })
         if (favorites !== null) {
             var reqProducts = req.body
             var favProducts = favorites.products
