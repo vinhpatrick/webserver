@@ -61,7 +61,7 @@ exports.addFavoritesItems = async (req, res, next) => {
 
 exports.deleteAllFavorites = async (req, res, next) => {
     try {
-        const resp = await Favorites.findOneAndDelete({ "user": req.user._id })
+        const resp = await Favorites.findOneAndDelete({ user: req.user._id })
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(resp);

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Bluebird = require('bluebird');
+Bluebird.promisifyAll(require('mongoose'));
 const Products = require('../models/products')
 const Sizes = require('../models/size')
 //
@@ -114,15 +115,16 @@ exports.editProductById = async (req, res, next) => {
     }
 
 }
-//tam de day
-// exports.deleteProductById = async (req, res, next) => {
-//     try {
-//         // const resp = Products.findByIdAndRemove(req.params.productId)
-//         const size = Sizes.find({ product: req.params.productId })
-//         res.statusCode = 200
-//         res.setHeader('Content-Type', 'application/json');
-//         res.json(size);
-//     } catch (error) {
-//         next(error);
-//     }
-// }
+
+exports.deleteProductById = async (req, res, next) => {
+    try {
+        const product = await Products.findByIdAndRemove(req.params.productId).lean()
+        const allsize = await Sizes.deleteMany({ product: { $in: req.params.productId } }).lean()
+        const result = { ...product, ...allsize }
+        res.statusCode = 200
+        res.setHeader('Content-Type', 'application/json');
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+}

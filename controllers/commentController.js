@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Comments = require('../models/comments')
 
-exports.getProductComments = async (req, res, next) => {
+exports.getAllComments = async (req, res, next) => {
     try {
         const comments = await Comments.find(req.query)
             .populate('author')
