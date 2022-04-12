@@ -35,8 +35,8 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
 
 exports.verifyUser = passport.authenticate('jwt', { session: false });
 
-exports.verifyAdmin = function (params, err, next) {
-    if (params.user.admin) {
+exports.verifyAdmin = function (req, res, next) {
+    if (req.user.admin) {
         return next();
     } else {
         var err = new Error('Chỉ quản trị viên mới được thực hiện thao tác này!!!');
