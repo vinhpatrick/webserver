@@ -3,7 +3,8 @@ const bodyParser = require('body-parser')
 
 const authenticate = require('../authenticate')
 const cors = require('./cors')
-const cartController = require('../controllers/commentController')
+const cartController = require('../controllers/cartController')
+
 
 cartRouter = express.Router()
 cartRouter.use(bodyParser.json())
@@ -16,4 +17,5 @@ cartRouter.route('/')
 cartRouter.route('/:cartId')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200) })
     .put(cors.corsWithOptions, authenticate.verifyUser, cartController.editCartItem)
+
 module.exports = cartRouter;

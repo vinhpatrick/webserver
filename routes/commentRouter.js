@@ -16,4 +16,5 @@ commentRouter.route('/')
 commentRouter.route('/:commentId')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
     .delete(cors.corsWithOptions, authenticate.verifyUser, commentController.deleteCommentById)
+
 module.exports = commentRouter;

@@ -19,5 +19,4 @@ favoriteRouter.route('/:productId')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus = 200; })
     .post(cors.corsWithOptions, authenticate.verifyUser, favoriteController.addFavoritesById)
 
-
 module.exports = favoriteRouter;
