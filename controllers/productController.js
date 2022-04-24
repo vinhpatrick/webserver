@@ -2,7 +2,71 @@ const mongoose = require('mongoose');
 const Bluebird = require('bluebird');
 Bluebird.promisifyAll(require('mongoose'));
 const Products = require('../models/products')
-const Sizes = require('../models/size')
+const Sizes = require('../models/size');
+
+//seacrh product
+const _searchProductsAndAttachSizes = async (query, page, limit, sort) => {
+    const products = await Products.find(query)
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .sort(sort)
+        .lean()
+
+    return Bluebird.map(
+        products,
+        async (product) => {
+            const sizes = await Sizes.find({ product: product._id })
+                .select('-_id name numberInStock')
+                .lean()
+            return { ...product, sizes }
+        },
+        { concurrency: products.length }
+    )
+}
+const searchProducts = async (
+    search = '',
+    page = 1,
+    limit = 20,
+    sort = '-_id'
+) => {
+    const vPage = parseInt(page)
+    const vLimit = parseInt(limit)
+
+    // const query = { deletedAt: null }
+
+    // if (shopId) {
+    //     query.shop = shopId
+    // }
+    const query = { deletedAt: null }
+    if (search) {
+        query.$text = { $search: search }
+    }
+
+    const [products, total] = await Bluebird.all([
+        _searchProductsAndAttachSizes(query, vPage, vLimit, sort),
+        Products.countDocuments(query),
+    ])
+
+    const pages = Math.ceil(total / vLimit)
+
+    return { products, total, pages, page: vPage }
+}
+
+exports.searchProducts = async (req, res, next) => {
+    try {
+        const { search, page, limit, sort } = { ...req.params, ...req.query }
+        const products = await searchProducts(search, page, limit, sort)
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(products);
+    } catch (error) {
+        next(error)
+    }
+}
+
+
+
+
 //
 exports.getProductItems = async (req, res, next) => {
     try {
@@ -14,6 +78,7 @@ exports.getProductItems = async (req, res, next) => {
         next(error);
     }
 }
+//
 exports.addProductItems = async (req, res, next) => {
     try {
         const { sizes, ...rest } = req.body
@@ -33,7 +98,7 @@ exports.addProductItems = async (req, res, next) => {
         console.log('Thêm sản phẩm thành công', product)
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json')
-        res.json(result)
+        res.json({ success: true, result, status: 'Bạn đã thêm sản phẩm thành công' })
     } catch (error) {
         next(error);
     }
@@ -67,6 +132,7 @@ exports.getProductById = async (req, res, next) => {
         const sizes = await Sizes.find({ product: product._id })
             .select('-_id name numberInStock')
             .lean()
+        // console.log('alll', product._id);
         const result = { ...product, sizes }
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/json')

@@ -10,7 +10,7 @@ productRouter.use(bodyParser.json())
 
 productRouter.route('/')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200) })
-    .get(cors.cors, productController.getProductItems)
+    .get(cors.cors, productController.searchProducts)
     .post(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, productController.addProductItems)
     .delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, productController.deleteProductItems)
 

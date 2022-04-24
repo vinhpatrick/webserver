@@ -21,34 +21,43 @@ router.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.veri
 });
 
 router.post('/signup', cors.corsWithOptions, (req, res, next) => {
-  User.register(new User({ username: req.body.username }),
-    req.body.password, (err, user) => {
-      if (err) {
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'application/json');
-        res.json({ err: err });
-      } else {
-        if (req.body.firstname) {
-          user.firstname = req.body.firstname;
-        }
-        if (req.body.lastname) {
-          user.firstname = req.body.lastname;
-        }
-        user.save((err, user) => {
-          if (err) {
-            res.statusCode = 500;
-            res.setHeader('Content-Type', 'application/json');
-            res.json({ err: err });
-            return;
-          }
-          passport.authenticate('local')(req, res, () => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json({ success: true, status: "Bạn đã đăng ký thành công", user: user });
-          })
-        })
+  const { password, ...rest } = req.body
+  User.register(new User(rest), password, (err, user) => {
+    if (err) {
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'application/json');
+      res.json({ err: err });
+    } else {
+      // if (req.body.firstname) {
+      //   user.firstname = req.body.firstname;
+      // }
+      // if (req.body.lastname) {
+      //   user.lastname = req.body.lastname;
+      // }
+      // if (req.body.phoneNumber) {
+      //   user.phoneNumber = req.body.phoneNumber;
+      // }
+      if (req.body.email) {
+        user.email = req.body.email;
       }
+      if (req.body.address) {
+        user.address = req.body.address;
+      }
+      user.save((err, user) => {
+        if (err) {
+          res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({ err: err });
+          return;
+        }
+        passport.authenticate('local')(req, res, () => {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({ success: true, status: "Bạn đã đăng ký thành công", user: user });
+        })
+      })
     }
+  }
   )
 })
 
@@ -69,9 +78,10 @@ router.post('/login', cors.corsWithOptions, (req, res, next) => {
         res.json({ success: false, status: 'Đăng nhập không thành công', err: 'Không thể đăng nhập người dùng!' });
       }
       var token = authenticate.getToken({ _id: req.user._id });
+      var admin = req.user.admin
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
-      res.json({ success: true, token: token, status: 'Bạn đã đăng nhập thành công!' });
+      res.json({ success: true, admin: admin, token: token, status: 'Bạn đã đăng nhập thành công!', userId: req.user._id });
     })
   })(req, res, next);
 })

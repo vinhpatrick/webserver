@@ -4,42 +4,66 @@ const Sizes = require('../models/size')
 
 exports.getCartItems = async (req, res, next) => {
     try {
-        const cartitem = await CartItems.find({ user: req.user._id })
+        const cartItems = await CartItems.find({ user: req.user._id })
             .populate('user')
-            .populate('dishes')
+            .populate('product')
             .lean()
-        if (!cartitem) {
+        if (!cartItems) {
             var err = new Error('Bạn chưa có sản phẩm nào trong giỏ hàng !');
             err.status = 404;
             return next(err);
-        } else {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(cartitem)
         }
+        // const [product, ...rest] = cartitem
+        // console.log('product', product._id);
+        const uniqueProductIds = cartItems
+            .filter(
+                (item, index, self) =>
+                    self.findIndex(
+                        (vItem) => vItem.product._id.toString() === item.product._id.toString()
+                    ) === index
+            )
+            .map((item) => item.product._id)
+        const allSizes = await Sizes.find({ product: { $in: uniqueProductIds } })
+            .select('product name numberInStock')
+            .lean()
+        cartItems.forEach((item) => {
+            item.product.sizes = allSizes.filter(
+                (size) => size.product.toString() === item.product._id.toString()
+            )
+        })
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(cartItems)
     } catch (error) {
         next(error);
     }
 }
+
+const addItemToCart = async ({ product, size, user, quantity }) => {
+    const exitsCartItem = await CartItems.findOne({ product, size, user })
+    // console.log('exitcartitem', exitsCartItem);
+    if (!exitsCartItem) {
+        return CartItems.create({ product, size, user, quantity })
+    }
+    const newQuantity = quantity + exitsCartItem.quantity;
+    const fullSize = await Sizes.findOne({ product, name: size }).lean()
+    if (fullSize.numberInStock < newQuantity) {
+        var err = new Error('Không còn đủ sản phẩm trong kho');
+        err.status = 404
+        return next(err)
+    }
+    exitsCartItem.quantity = newQuantity;
+    return exitsCartItem.save()
+}
+
+
 exports.addItemToCart = async (req, res, next) => {
     try {
-        const { product, size, user, quantity } = req.body
-        const exitsCartItem = await CartItems.findOne({ product, size, user })
-        if (!exitsCartItem) {
-            return CartItems.create(product, size, user, quantity)
-        }
-        const newQuantity = quantity + exitsCartItem.quantity;
-        const fullSize = await Sizes.findOne({ product, name: size }).lean()
-        if (fullSize.numberInStock < newQuantity) {
-            var err = new Error('Không còn đủ sản phẩm trong kho');
-            err.status = 404
-            return next(err)
-        }
-        exitsCartItem.quantity = newQuantity;
-        exitsCartItem.save()
+        const args = req.body
+        const cart = await addItemToCart(args)
         res.statusCode = 201
         res.setHeader('Content-Type', 'application/json')
-        res.json(exitsCartItem)
+        res.json(cart)
     } catch (error) {
         next(error)
     }
