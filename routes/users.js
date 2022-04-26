@@ -81,7 +81,7 @@ router.post('/login', cors.corsWithOptions, (req, res, next) => {
       var admin = req.user.admin
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
-      res.json({ success: true, admin: admin, token: token, status: 'Bạn đã đăng nhập thành công!', userId: req.user._id });
+      res.json({ success: true, admin: admin, token: token, status: 'Bạn đã đăng nhập thành công!', userId: req.user._id, user: user });
     })
   })(req, res, next);
 })

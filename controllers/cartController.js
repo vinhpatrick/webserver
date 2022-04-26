@@ -70,7 +70,8 @@ exports.addItemToCart = async (req, res, next) => {
 }
 exports.deleteCartItems = async (req, res, next) => {
     try {
-        const resp = await CartItems.deleteMany({ _id: { $in: req.body } })
+        const { cartItemIds } = req.body
+        const resp = await CartItems.deleteMany({ _id: { $in: cartItemIds } })
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/json')
         res.json(resp)
@@ -80,8 +81,10 @@ exports.deleteCartItems = async (req, res, next) => {
 }
 exports.editCartItem = async (req, res, next) => {
     try {
-        const { id, quantity, size } = { ...req.params, ...req.body }
-        const cartItemUpdate = await CartItems.findByIdAndUpdate(id, {
+        const { cartId } = req.params
+        console.log('cartid', cartId);
+        const { quantity, size } = { ...req.body }
+        const cartItemUpdate = await CartItems.findByIdAndUpdate(cartId, {
             $set: { size, quantity }
         }, { new: true }).lean()
         res.statusCode = 200

@@ -9,7 +9,7 @@ const oderSchema = new Schema({
     },
     storeAddress: {
         type: String,
-        required: true,
+        default: '444 Cầu Giấy',
     },
     receiverAddress: {
         type: String,

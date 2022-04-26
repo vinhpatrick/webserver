@@ -6,7 +6,8 @@ exports.getFavoritesItems = async (req, res, next) => {
     try {
         const favorites = await Favorites.find({ user: req.user._id })
             .populate('user')
-            .populate('product')
+            .populate('products')
+            .lean()
         if (!favorites) {
             var err = new Error("Bạn không có sản phẩm yêu thích !")
             err.status = 404
@@ -20,119 +21,84 @@ exports.getFavoritesItems = async (req, res, next) => {
     }
 }
 
-// exports.addFavoritesItems = async (req, res, next) => {
-//     try {
-//         const favorites = await Favorites.findOne({ user: req.body._id })
-//         if (favorites !== null) {
-//             var reqProducts = req.body
-//             var favProducts = favorites.products
-//             reqProducts.map((reqproduct) => {
-//                 var alreadyProduct = favProducts.filter((product) => product.equals(reqproduct._id))
-//                 if (alreadyProduct.length === 0) {
-//                     favProducts.push(reqproduct._id)
-//                 }
-//             })
-//             const newFavorites = await Favorites.findByIdAndUpdate(favorites._id, {
-//                 $set: {
-//                     user: req.user._id,
-//                     product: favProducts
-//                 }
-//             }, { new: true })
-//             const updateFavorites = await Favorites.findById(newFavorites._id)
-//                 .populate('user')
-//                 .populate('dishes')
-//             res.statusCode = 200;
-//             res.setHeader('Content-Type', 'application/json');
-//             res.json(updateFavorites);
-//         } else {
-//             var products = []
-//             req.body.map((product) => {
-//                 products.push(product._id)
-//             })
-//             const favorites = await Favorites.create({ user: req.user._id, products: products })
-//             const updateFavorites = await Favorites.findById(favorites._id)
-//                 .populate('user')
-//                 .populate('dishes')
-//             console.log('Favorites Created', updateFavorites);
-//             res.statusCode = 200;
-//             res.setHeader('Content-Type', 'application/json');
-//             res.json(updateFavorites);
-
-//         }
-//     } catch (error) {
-//         next(error)
-//     }
-// }
-
 exports.addFavoritesItems = async (req, res, next) => {
     try {
-        const favorites = await Favorites.find({})
-            .populate('product')
+        const { productId, userId } = req.body
+        const favorites = await Favorites.findOne({
+            user: userId
+        })
             .populate('user')
-        var user;
-        if (favorites)
-            user = favorites.filter(fav => fa.user._id.toString() === req.user.id.toString())[0];
-        if (!user)
-            user = await new Favorites({ user: req.user.id })
-        for (let i of req.body) {
-            if (user.products.find((p_id) => {
-                if (p_id._id) {
-                    return p_id._id.toString() === i._id.toString();
+            .populate('products')
+        if (favorites !== null) {
+            const { products } = favorites
+            var len = 0
+            const exitsProduct = products.filter((product) => {
+                if (product._id.toString() === productId) {
+                    len++;
                 }
-            }))
-                continue;
-            user.products.push(i._id);
-        }
-        const userFavs = await user.save()
-        if (userFavs) {
+            })
+            if (len > 0) {
+                err = new Error('Sản phẩm ' + productId + ' đã có trong danh sách yêu thích!');
+                err.status = 400;
+                return next(err);
+            } else {
+                await favorites.products.push(productId)
+                await favorites.save()
+            }
+        } else {
+            const newFavorites = await Favorites.create({
+                user: userId,
+                products: [
+                    productId
+                ]
+            })
             res.statusCode = 201;
             res.setHeader("Content-Type", "application/json");
-            res.json(userFavs);
-            console.log("Thêm thành công sản phẩm yêu thích")
+            res.json(newFavorites);
         }
+        res.statusCode = 201;
+        res.setHeader("Content-Type", "application/json");
+        res.json(favorites);
     } catch (error) {
         next(error);
     }
 }
 
-exports.deleteAllFavorites = async (req, res, next) => {
+exports.deleteFavoriteById = async (req, res, next) => {
     try {
-        const resp = await Favorites.findOneAndDelete({ user: req.user._id })
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
+        const productId = req.params.productId
+        const favorites = await Favorites.findOne({ user: req.user._id })
+            .populate('user')
+            .populate('products')
+        if (favorites) {
+            const { products } = favorites
+            var proUpdate = favorites.products.filter((product) => {
+                return !(product._id.toString() === req.params.productId)
+
+            })
+            console.log('proup', proUpdate);
+            if (proUpdate.length === products.length) {
+                var err = new Error("Sản phẩm bạn muốn xóa không có trong danh sách yêu thích!")
+                err.status = 404
+                return next(err)
+            } else {
+                const fvupdate = await Favorites.findByIdAndUpdate(favorites._id, {
+                    $set: {
+                        user: req.user._id,
+                        products: proUpdate
+                    }
+                }, { new: true })
+                res.statusCode = 201;
+                res.setHeader("Content-Type", "application/json");
+                res.json(fvupdate);
+            }
+        }
+        else {
+            var err = new Error("Bạn chưa có sản phẩm yêu thích !")
+            err.status = 404
+            return next(err)
+        }
     } catch (error) {
         next(error)
     }
-}
-//
-exports.addFavoritesById = async (req, res, next) => {
-    try {
-        const favorites = await Favorites.find({})
-            .populate('user')
-            .populate('product')
-        var user
-        if (favorites)
-            user = favorites.filter(fav => fav.user._id.toString() === req.user.id.toString())[0]
-        if (!user)
-            user = new Favorites({ user: req.user.id });
-        if (!user.products.find((p_id) => {
-            if (p_id._id)
-                return p_id._id.toString() === req.params.productId.toString();
-        }))
-            user.products.push(req.params.productId);
-
-        const userFavs = await user.save()
-        if (userFavs) {
-            res.statusCode = 201;
-            res.setHeader("Content-Type", "application/json");
-            res.json(userFavs);
-            console.log("Thêm thành công sản phẩm yêu thích")
-        }
-    } catch (error) {
-
-    }
-}
-exports.deleteFavoriteById = async (req, res, next) => {
-
 }
