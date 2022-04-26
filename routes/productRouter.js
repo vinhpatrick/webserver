@@ -18,6 +18,5 @@ productRouter.route('/:productId')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200) })
     .get(cors.cors, productController.getProductById)
     .put(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, productController.editProductById)
-    .delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, productController.deleteProductById)
 
 module.exports = productRouter;

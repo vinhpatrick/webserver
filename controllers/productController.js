@@ -104,20 +104,47 @@ exports.addProductItems = async (req, res, next) => {
     }
 }
 
+// exports.deleteProductItems = async (req, res, next) => {
+//     try {
+//         const [resp] = await Bluebird.all([
+//             Products.remove({}),
+//             Sizes.remove({})
+//         ])
+//         res.statusCode = 200
+//         res.setHeader('Content-Type', 'application/json')
+//         res.json(resp);
+//     } catch (error) {
+//         next(error);
+//     }
+// }
 exports.deleteProductItems = async (req, res, next) => {
     try {
-        const [resp] = await Bluebird.all([
-            Products.remove({}),
-            Sizes.remove({})
-        ])
+        const { productIds } = req.body
+        // console.log('productid', productIds);
+        const productsToDelete = await Products.find({
+            _id: { $in: productIds }
+        })
+            .select('_id')
+            .lean()
+        console.log('prodcutdelete', productsToDelete);
+        if (!productsToDelete.length) {
+            var err = new Error('Không tìm thấy sản phẩm cần xóa')
+            err.status = 404
+            return next(err)
+        }
+        const idsToDelete = productsToDelete.map((product) => {
+            return product._id
+        })
+        const product = await Products.deleteMany({ _id: { $in: idsToDelete } }).lean()
+        const size = await Sizes.deleteMany({ product: { $in: idsToDelete } })
+        const resp = { ...product, ...size }
         res.statusCode = 200
         res.setHeader('Content-Type', 'application/json')
-        res.json(resp);
+        res.json(resp)
     } catch (error) {
-        next(error);
+        return next(error)
     }
 }
-
 
 //
 exports.getProductById = async (req, res, next) => {
@@ -180,17 +207,4 @@ exports.editProductById = async (req, res, next) => {
         next(error);
     }
 
-}
-
-exports.deleteProductById = async (req, res, next) => {
-    try {
-        const product = await Products.findByIdAndRemove(req.params.productId).lean()
-        const allsize = await Sizes.deleteMany({ product: { $in: req.params.productId } }).lean()
-        const result = { ...product, ...allsize }
-        res.statusCode = 200
-        res.setHeader('Content-Type', 'application/json');
-        res.json(result);
-    } catch (error) {
-        next(error);
-    }
 }
