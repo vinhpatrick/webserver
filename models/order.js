@@ -33,6 +33,6 @@ const oderSchema = new Schema({
     }
 }, { timestamps: true })
 
-var Orders = mongoose.model('Oder', oderSchema);
+var Orders = mongoose.model('Order', oderSchema);
 
 module.exports = Orders; 

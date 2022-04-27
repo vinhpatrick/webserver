@@ -31,12 +31,6 @@ const searchProducts = async (
 ) => {
     const vPage = parseInt(page)
     const vLimit = parseInt(limit)
-
-    // const query = { deletedAt: null }
-
-    // if (shopId) {
-    //     query.shop = shopId
-    // }
     const query = { deletedAt: null }
     if (search) {
         query.$text = { $search: search }
@@ -104,19 +98,6 @@ exports.addProductItems = async (req, res, next) => {
     }
 }
 
-// exports.deleteProductItems = async (req, res, next) => {
-//     try {
-//         const [resp] = await Bluebird.all([
-//             Products.remove({}),
-//             Sizes.remove({})
-//         ])
-//         res.statusCode = 200
-//         res.setHeader('Content-Type', 'application/json')
-//         res.json(resp);
-//     } catch (error) {
-//         next(error);
-//     }
-// }
 exports.deleteProductItems = async (req, res, next) => {
     try {
         const { productIds } = req.body

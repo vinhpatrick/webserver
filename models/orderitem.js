@@ -10,6 +10,7 @@ const orderItemSchema = new Schema({
     product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
+        required: true,
     },
     size: {
         type: String,
@@ -26,6 +27,6 @@ const orderItemSchema = new Schema({
         required: true,
     }
 }, { timestamps: true })
-
+orderItemSchema.index({ order: 1, product: 1 })
 var OrderItems = mongoose.model('OrderItem', orderItemSchema);
 module.exports = OrderItems;
