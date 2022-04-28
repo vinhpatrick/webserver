@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const oderSchema = new Schema({
+const orderSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -32,7 +32,7 @@ const oderSchema = new Schema({
 
     }
 }, { timestamps: true })
-
-var Orders = mongoose.model('Order', oderSchema);
+orderSchema.index({ user: 1, status: 1 })
+var Orders = mongoose.model('Order', orderSchema);
 
 module.exports = Orders; 

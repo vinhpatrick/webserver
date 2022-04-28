@@ -40,6 +40,7 @@ const searchOrders = async (args) => {
 exports.searchOrders = async (req, res, next) => {
     try {
         const { status } = req.query
+        console.log('user', req.query);
         const user = req.user._id
 
         const orders = await searchOrders({ status, user })
