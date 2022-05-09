@@ -5,7 +5,6 @@ const authenticate = require('../authenticate');
 const cors = require('./cors');
 const feedbackController = require('../controllers/feedbackController')
 
-const Feedbacks = require('../models/favorites');
 const feedbackRouter = express.Router();
 
 feedbackRouter.use(bodyParser.json());

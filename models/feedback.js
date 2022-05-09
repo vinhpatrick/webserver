@@ -10,7 +10,7 @@ const feedbackSchema = new Schema({
         type: String,
         required: true
     },
-    phoneNumber: {
+    telnum: {
         type: String,
         required: true
     },
@@ -18,11 +18,15 @@ const feedbackSchema = new Schema({
         type: String,
         required: true
     },
-    contactBy: {
+    agree: {
+        type: Boolean,
+        default: false
+    },
+    contactType: {
         type: String,
         required: true
     },
-    feedBack: {
+    message: {
         type: String,
         required: true
     }
