@@ -15,7 +15,7 @@ var cartRouter = require('./routes/cartRouter');
 var orderRouter = require('./routes/orderRouter');
 var uploadRouter = require('./routes/uploadRouter');
 var orderAdminRouter = require('./routes/orderRouterAdmin');
-
+var feedbackRouter = require('./routes/feedbackRouter')
 
 
 
@@ -49,8 +49,9 @@ app.use('/comments', commentRouter);
 app.use('/favorites', favoriteRouter);
 app.use('/carts', cartRouter);
 app.use('/orders', orderRouter);
-app.use('/admin/orders', orderAdminRouter)
+app.use('/admin/orders', orderAdminRouter);
 app.use('/imageUpload', uploadRouter);
+app.use('/feedback', feedbackRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

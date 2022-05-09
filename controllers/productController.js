@@ -137,6 +137,9 @@ exports.getProductById = async (req, res, next) => {
             err.status = 404
             next(err)
         }
+        else {
+            await Products.updateOne({ _id: req.params.productId }, { $inc: { view: 1 } }).exec()
+        }
         const sizes = await Sizes.find({ product: product._id })
             .select('-_id name numberInStock')
             .lean()

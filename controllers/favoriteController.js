@@ -76,7 +76,7 @@ exports.deleteFavoriteById = async (req, res, next) => {
                 return !(product._id.toString() === req.params.productId)
 
             })
-            console.log('proup', proUpdate);
+            // console.log('proup', proUpdate);
             if (proUpdate.length === products.length) {
                 var err = new Error("Sản phẩm bạn muốn xóa không có trong danh sách yêu thích!")
                 err.status = 404
