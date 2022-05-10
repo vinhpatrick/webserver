@@ -10,7 +10,7 @@ const feedbackRouter = express.Router();
 feedbackRouter.use(bodyParser.json());
 
 feedbackRouter.route('/')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus = 200; })
-    .get(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, feedbackController.getFeedbacks)
-    .post(cors.corsWithOptions, feedbackController.addFeedback)
+    .options(cors.cors, (req, res) => { res.sendStatus = 200; })
+    .get(cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, feedbackController.getFeedbacks)
+    .post(cors.cors, feedbackController.addFeedback)
 module.exports = feedbackRouter;

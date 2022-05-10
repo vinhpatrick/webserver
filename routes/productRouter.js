@@ -9,14 +9,14 @@ const productRouter = express.Router()
 productRouter.use(bodyParser.json())
 
 productRouter.route('/')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200) })
+    .options(cors.cors, (req, res) => { res.sendStatus(200) })
     .get(cors.cors, productController.searchProducts)
-    .post(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, productController.addProductItems)
-    .delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, productController.deleteProductItems)
+    .post(cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, productController.addProductItems)
+    .delete(cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, productController.deleteProductItems)
 
 productRouter.route('/:productId')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200) })
+    .options(cors.cors, (req, res) => { res.sendStatus(200) })
     .get(cors.cors, productController.getProductById)
-    .put(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, productController.editProductById)
+    .put(cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, productController.editProductById)
 
 module.exports = productRouter;

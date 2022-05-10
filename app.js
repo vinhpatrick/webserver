@@ -18,8 +18,6 @@ var uploadRouter = require('./routes/uploadRouter');
 var orderAdminRouter = require('./routes/orderRouterAdmin');
 var feedbackRouter = require('./routes/feedbackRouter')
 
-
-
 const mongoose = require('mongoose');
 const url = config.mongoUrl;
 const connect = mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 })

@@ -10,12 +10,12 @@ cartRouter = express.Router()
 cartRouter.use(bodyParser.json())
 
 cartRouter.route('/')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200) })
-    .get(cors.corsWithOptions, authenticate.verifyUser, cartController.getCartItems)
-    .post(cors.corsWithOptions, authenticate.verifyUser, cartController.addItemToCart)
-    .delete(cors.corsWithOptions, authenticate.verifyUser, cartController.deleteCartItems)
+    .options(cors.cors, (req, res) => { res.sendStatus(200) })
+    .get(cors.cors, authenticate.verifyUser, cartController.getCartItems)
+    .post(cors.cors, authenticate.verifyUser, cartController.addItemToCart)
+    .delete(cors.cors, authenticate.verifyUser, cartController.deleteCartItems)
 cartRouter.route('/:cartId')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200) })
-    .put(cors.corsWithOptions, authenticate.verifyUser, cartController.editCartItem)
+    .options(cors.cors, (req, res) => { res.sendStatus(200) })
+    .put(cors.cors, authenticate.verifyUser, cartController.editCartItem)
 
 module.exports = cartRouter;

@@ -11,12 +11,12 @@ const favoriteRouter = express.Router();
 favoriteRouter.use(bodyParser.json());
 
 favoriteRouter.route('/')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus = 200; })
-    .get(cors.corsWithOptions, authenticate.verifyUser, favoriteController.getFavoritesItems)
-    .post(cors.corsWithOptions, authenticate.verifyUser, favoriteController.addFavoritesItems)
+    .options(cors.cors, (req, res) => { res.sendStatus = 200; })
+    .get(cors.cors, authenticate.verifyUser, favoriteController.getFavoritesItems)
+    .post(cors.cors, authenticate.verifyUser, favoriteController.addFavoritesItems)
 // .delete(cors.corsWithOptions, authenticate.verifyUser, favoriteController.deleteAllFavorites)
 favoriteRouter.route('/:productId')
-    .options(cors.corsWithOptions, (req, res) => { res.sendStatus = 200; })
-    .delete(cors.corsWithOptions, authenticate.verifyUser, favoriteController.deleteFavoriteById)
+    .options(cors.cors, (req, res) => { res.sendStatus = 200; })
+    .delete(cors.cors, authenticate.verifyUser, favoriteController.deleteFavoriteById)
 
 module.exports = favoriteRouter;

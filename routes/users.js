@@ -9,8 +9,8 @@ var router = express.Router();
 router.use(bodyParser.json());
 
 /* GET users listing. */
-router.options('*', cors.corsWithOptions, (req, res) => { res.sendStatus(200); });
-router.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+router.options('*', cors.cors, (req, res) => { res.sendStatus(200); });
+router.get('/', cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
   User.find({})
     .then(users => {
       res.statusCode = 200;
@@ -20,7 +20,7 @@ router.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.veri
     .catch(err => next(err));
 });
 
-router.post('/signup', cors.corsWithOptions, (req, res, next) => {
+router.post('/signup', cors.cors, (req, res, next) => {
   const { password, ...rest } = req.body
   User.register(new User(rest), password, (err, user) => {
     if (err) {
@@ -61,7 +61,7 @@ router.post('/signup', cors.corsWithOptions, (req, res, next) => {
   )
 })
 
-router.post('/login', cors.corsWithOptions, (req, res, next) => {
+router.post('/login', cors.cors, (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       return next(err);
