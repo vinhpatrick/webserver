@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 var config = require('./config')
 var indexRouter = require('./routes/index');
@@ -21,7 +22,7 @@ var feedbackRouter = require('./routes/feedbackRouter')
 
 const mongoose = require('mongoose');
 const url = config.mongoUrl;
-const connect = mongoose.connect(url)
+const connect = mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 })
   .then((db) => {
     console.log('Kết nối tới database thành công...' + app.get('port'));
   }, (err) => { console.log("err", err) })
