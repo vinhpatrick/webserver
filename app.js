@@ -40,7 +40,6 @@ app.use(cookieParser());
 
 app.use(passport.initialize());
 
-app.use(cors())
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
