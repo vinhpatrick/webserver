@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
+var cors = require('cors')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 var config = require('./config')
@@ -17,6 +18,7 @@ var orderRouter = require('./routes/orderRouter');
 var uploadRouter = require('./routes/uploadRouter');
 var orderAdminRouter = require('./routes/orderRouterAdmin');
 var feedbackRouter = require('./routes/feedbackRouter')
+var statisticsRouter = require('./routes/statisticsRouter')
 
 const mongoose = require('mongoose');
 const url = config.mongoUrl;
@@ -26,7 +28,7 @@ const connect = mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopolog
   }, (err) => { console.log("err", err) })
 
 var app = express();
-
+require('./worker').run()
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -38,6 +40,7 @@ app.use(cookieParser());
 
 app.use(passport.initialize());
 
+app.use(cors())
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -51,6 +54,7 @@ app.use('/orders', orderRouter);
 app.use('/admin/orders', orderAdminRouter);
 app.use('/imageUpload', uploadRouter);
 app.use('/feedback', feedbackRouter);
+app.use('/statistics', statisticsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
