@@ -4,6 +4,7 @@ var User = require('../models/user');
 var passport = require('passport');
 var authenticate = require('../authenticate');
 var cors = require('./cors');
+var userController = require('../controllers/userController')
 
 var router = express.Router();
 router.use(bodyParser.json());
@@ -85,6 +86,11 @@ router.post('/login', cors.cors, (req, res, next) => {
     })
   })(req, res, next);
 })
+
+router.put('/updateSelf', authenticate.verifyUser, userController.updateCurrentUser)
+router.put('/changepassword', authenticate.verifyUser, userController.changePassword)
+
+
 
 router.get('/logout', (req, res) => {
   if (req.session) {
