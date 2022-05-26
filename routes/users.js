@@ -87,8 +87,8 @@ router.post('/login', cors.cors, (req, res, next) => {
   })(req, res, next);
 })
 
-router.put('/updateSelf', authenticate.verifyUser, userController.updateCurrentUser)
-router.put('/changepassword', authenticate.verifyUser, userController.changePassword)
+router.put('/updateSelf', cors.cors, authenticate.verifyUser, userController.updateCurrentUser)
+router.put('/changepassword', cors.cors, authenticate.verifyUser, userController.changePassword)
 
 
 
