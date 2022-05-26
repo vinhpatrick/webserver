@@ -5,6 +5,7 @@ exports.updateCurrentUser = async (req, res, next) => {
     try {
         const args = req.body
         const id = req.user._id
+        // console.log('data', req.body);
         const updateUser = await User.findByIdAndUpdate(id, { $set: args }, { new: true })
             .select('-hash -salt -__v')
             .lean()

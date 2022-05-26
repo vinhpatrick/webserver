@@ -30,6 +30,7 @@ const connect = mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopolog
 var app = express();
 require('./worker').run()
 // view engine setup
+app.use(cors())
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
