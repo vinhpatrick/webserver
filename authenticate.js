@@ -37,6 +37,7 @@ exports.verifyUser = passport.authenticate('jwt', { session: false });
 
 exports.verifyAdmin = function (req, res, next) {
     if (req.user.admin) {
+        // console.log('admin', req.user.admin);
         return next();
     } else {
         var err = new Error('Chỉ quản trị viên mới được thực hiện thao tác này!!!');
