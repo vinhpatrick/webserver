@@ -2,6 +2,54 @@ const moment = require('moment');
 const ObjectId = require('mongoose').Types.ObjectId;
 const OrderStatistics = require('../models/orderStatistics')
 
+
+const getProductPriceStatistics = async (productId, from = moment().subtract(30, 'days'), to) => {
+    const query = {
+        product: productId,
+        capturedTime: {
+            $gte: from,
+            ...(to && { $lte: to }),
+        },
+    }
+    const statistics = await ProductStatistics.find(query).sort('capturedTime').lean()
+
+    const formattedStatistics = statistics.map((item) => {
+        const { capturedTime, ...rest } = item
+        const formattedCapturedTime = moment(capturedTime).format('DD/MM/YYYY')
+        return { ...rest, capturedTime: formattedCapturedTime }
+    })
+
+    if (statistics.length === 1) {
+        const product = await Products.findById(statistics[0].product).lean()
+        const { price } = product
+        formattedStatistics.push({
+            product: productId,
+            price,
+            capturedTime: moment().format('DD/MM/YYYY'),
+        })
+    }
+
+    return formattedStatistics
+}
+
+exports.getProductPriceStatistics = async (req, res, next) => {
+    try {
+        const { id: productId, from, to } = { ...req.params, ...req.query }
+        const statistics = await getProductPriceStatistics(productId, from, to)
+        res.statusCode = 200
+        res.setHeader('Content-Type', 'application/json')
+        res.json(statistics)
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+
+
+
+
+
 const getOrderAmountStatistics = async ({
     from = moment().subtract(30, 'days'),
     to,

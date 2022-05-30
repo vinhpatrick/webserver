@@ -10,6 +10,9 @@ statisticsRouter.use(bodyParser.json())
 statisticsRouter
     .options('/order-statistics', cors.cors, (req, res) => { res.sendStatus = 200; })
 statisticsRouter
-    .get('/order-statistics', cors.cors, statisticsController.getOrderAmountStatistics)
+    .get('/order-statistics', cors.cors, authenticate.verifyAdmin, statisticsController.getOrderAmountStatistics)
+
+statisticsRouter
+    .get('/product-statistics', cors.cors, statisticsController.getProductPriceStatistics)
 
 module.exports = statisticsRouter;
