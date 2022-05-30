@@ -1,6 +1,7 @@
 const moment = require('moment');
 const ObjectId = require('mongoose').Types.ObjectId;
 const OrderStatistics = require('../models/orderStatistics')
+const ProductStatistics = require('../models/productStatistics')
 
 
 const getProductPriceStatistics = async (productId, from = moment().subtract(30, 'days'), to) => {

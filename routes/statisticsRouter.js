@@ -13,6 +13,6 @@ statisticsRouter
     .get('/order-statistics', cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, statisticsController.getOrderAmountStatistics)
 
 statisticsRouter
-    .get('/product-statistics', cors.cors, authenticate.verifyUser, statisticsController.getProductPriceStatistics)
+    .get('/products/:id', cors.cors, authenticate.verifyUser, statisticsController.getProductPriceStatistics)
 
 module.exports = statisticsRouter;
