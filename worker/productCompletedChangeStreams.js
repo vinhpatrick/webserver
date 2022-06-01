@@ -11,19 +11,9 @@ const run = async () => {
 
             const { _id: productId, price } = fullDocument
             if (
-                ['insert'].includes(operationType)
-            ) {
-                await ProductStatistics.create({
-                    product: productId,
-                    price: price,
-                    capturedTime: moment(),
-                })
-            }
-
-            if (
-                ['update'].includes(operationType) &&
-                updateDescription?.updatedFields?.price
-            ) {
+                ['insert', 'update'].includes(operationType) ||
+                updateDescription?.updatedFields.price
+            )
                 await ProductStatistics.findOneAndUpdate(
                     {
                         product: productId,
@@ -40,7 +30,37 @@ const run = async () => {
                     },
                     { upsert: operationType === 'insert' }
                 )
-            }
+            // if (
+            //     ['insert'].includes(operationType)
+            // ) {
+            //     await ProductStatistics.create({
+            //         product: productId,
+            //         price: price,
+            //         capturedTime: moment(),
+            //     })
+            // }
+
+            // if (
+            //     ['update'].includes(operationType) &&
+            //     updateDescription?.updatedFields?.price
+            // ) {
+            //     await ProductStatistics.findOneAndUpdate(
+            //         {
+            //             product: productId,
+            //             price: { $lt: price },//nhỏ hơn
+            //             capturedTime: {
+            //                 $gte: moment().startOf('day'),//lớn hơn hoặc bằng
+            //             },
+            //         },
+            //         {
+            //             $set: {
+            //                 price,
+            //                 capturedTime: moment(),
+            //             },
+            //         },
+            //         { upsert: operationType === 'update' }
+            //     )
+            // }
 
         } catch (error) {
             console.log(error)

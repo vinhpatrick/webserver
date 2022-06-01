@@ -12,7 +12,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 exports.getToken = function (user) {
-    return jwt.sign(user, config.secretKey, { expiresIn: 10860 });
+    return jwt.sign(user, config.secretKey, { expiresIn: '7d' });
 };
 
 var opts = {};

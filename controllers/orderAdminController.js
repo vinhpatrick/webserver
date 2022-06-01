@@ -16,6 +16,7 @@ const searchOrders = async (args) => {
         .populate('user')
         .sort('-_id')
         .lean()
+    // console.log('order', orders);
     return Bluebird.map(
         orders,
         async (order) => {

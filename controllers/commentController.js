@@ -15,16 +15,22 @@ exports.getAllComments = async (req, res, next) => {
 }
 
 const _recalculateProductRating = async (productId) => {
+    //công thức=(tổng của số ratting*5)/(số ratting*5)
     const allComments = await Comments.find({ product: productId })
-        .select('rating')
+        .select('ratting')
         .lean()
-
-    const totalRating = allComments.reduce((total, comment) => total + comment.rating, 0)
-    const newProductRating = allComments.length ? totalRating / allComments.length : 5
+    // console.log('allcomment', allComments);
+    const totalRating = allComments.reduce((total, comment) => total + comment.ratting, 0)//tính tổng ratting của comment
+    const totalComment = allComments.reduce((total, comment) => total + 1, 0)
+    console.log('ratting mới', (totalRating * 5) / (totalComment * 5));
+    const newProductRating = allComments.length ? ((totalRating * 5) / (totalComment * 5)) : 5
+    console.log('totalRating', totalRating);
+    console.log('totalComment', totalComment);
+    console.log('newProductRating', newProductRating);
 
     await Products.updateOne(
         { _id: productId },
-        { $set: { ratting: Math.round(newProductRating * 100) / 100 } },
+        { $set: { rating: Math.round(newProductRating) } },
     )
 }
 
