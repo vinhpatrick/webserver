@@ -12,7 +12,7 @@ const run = async () => {
             const { _id: productId, price } = fullDocument
             if (
                 ['insert', 'update'].includes(operationType) ||
-                updateDescription?.updatedFields.price
+                updateDescription?.updatedFields?.price
             )
                 await ProductStatistics.findOneAndUpdate(
                     {
@@ -30,6 +30,7 @@ const run = async () => {
                     },
                     { upsert: operationType === 'insert' }
                 )
+
             // if (
             //     ['insert'].includes(operationType)
             // ) {

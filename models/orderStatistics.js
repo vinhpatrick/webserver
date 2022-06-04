@@ -21,7 +21,7 @@ const orderStatisticsSchema = new Schema({
         required: true,
     },
 })
-orderStatisticsSchema.index({ customer: 1 })
+// orderStatisticsSchema.index({ user: 1 })
 orderStatisticsSchema.index({ capturedTime: 1 })
 
 var OrderStatistics = mongoose.model('OrderStatistic', orderStatisticsSchema);

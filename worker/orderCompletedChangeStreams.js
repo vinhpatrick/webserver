@@ -13,7 +13,6 @@ const run = async () => {
                 event.operationType === 'update' &&
                 event.updateDescription?.updatedFields?.status === ORDER_STATUSES.DELIVERED
             ) {
-                console.log('chay ne ne ne ')
                 const { _id: orderId, user: userId } = event.fullDocument
 
                 const [orderItems] = await Bluebird.all([

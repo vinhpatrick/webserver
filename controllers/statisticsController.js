@@ -53,13 +53,14 @@ exports.getProductPriceStatistics = async (req, res, next) => {
 
 
 const getOrderAmountStatistics = async ({
+    userId,
     from = moment().subtract(30, 'days'),
     to,
 }) => {
     const statistics = await OrderStatistics.aggregate([
         {
             $match: {
-                // ...(userId && { user: new ObjectId(userId) }),
+                ...(userId && { user: new ObjectId(userId) }),
                 capturedTime: {
                     $gte: moment(from).toDate(),
                     ...(to && { $lte: moment(to).toDate() }),
@@ -118,6 +119,7 @@ const getOrderAmountStatistics = async ({
                 _id: 0,
             },
         },
+
     ])
 
     return (statistics.length && statistics[0]) || {}
@@ -126,8 +128,9 @@ const getOrderAmountStatistics = async ({
 
 exports.getOrderAmountStatistics = async (req, res, next) => {
     try {
-        const { from, to } = { ...req.query, ...req.params }
+        const { from, to, userId } = { ...req.query, ...req.params }
         const statistics = await getOrderAmountStatistics({
+            userId,
             from,
             to,
         })
