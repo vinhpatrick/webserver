@@ -11,6 +11,8 @@ statisticsRouter
     .options('/order-statistics', cors.cors, (req, res) => { res.sendStatus = 200; })
 statisticsRouter
     .get('/order-statistics', cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, statisticsController.getOrderAmountStatistics)
+statisticsRouter
+    .get('/order-statistics/:userId', cors.cors, authenticate.verifyUser, statisticsController.getOrderAmountStatistics)
 
 statisticsRouter
     .get('/products/:id', cors.cors, statisticsController.getProductPriceStatistics)
