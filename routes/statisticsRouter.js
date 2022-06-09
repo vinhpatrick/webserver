@@ -12,8 +12,9 @@ statisticsRouter
 statisticsRouter
     .get('/order-statistics', cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, statisticsController.getOrderAmountStatistics)
 statisticsRouter
-    .get('/order-statistics/:userId', cors.cors, authenticate.verifyUser, statisticsController.getOrderAmountStatistics)
-
+    .get('/order-statistics/:userId', cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, statisticsController.getOrderAmountStatistics)
+statisticsRouter
+    .get('/myorder-statistics/:userId', cors.cors, authenticate.verifyUser, statisticsController.getOrderAmountStatistics)
 statisticsRouter
     .get('/products/:id', cors.cors, statisticsController.getProductPriceStatistics)
 
