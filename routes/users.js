@@ -13,6 +13,7 @@ router.use(bodyParser.json());
 router.options('*', cors.cors, (req, res) => { res.sendStatus(200); });
 router.get('/', cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
   User.find({})
+    .sort('email')
     .then(users => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');

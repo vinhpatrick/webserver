@@ -30,7 +30,7 @@ const searchOrders = async (args) => {
 
             return { ...order, totalPrice, items: orderItems }
         },
-        { concurrency: orders.length }
+        { concurrency: orders.length }//chỉ định số promises thực hiện đồng thời
     )
 }
 
@@ -56,7 +56,7 @@ const _updateSizesWhenCancelOrder = async (orderId) => {
             const { product, size, quantity } = item
             await Sizes.updateOne(
                 { product, name: size },
-                { $inc: { numberInStock: quantity } },
+                { $inc: { numberInStock: quantity } },//tăng số đơn lượng increase
             )
         },
         { concurrency: orderItems.length }

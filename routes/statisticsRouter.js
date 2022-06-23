@@ -12,6 +12,8 @@ statisticsRouter
 statisticsRouter
     .get('/order-statistics', cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, statisticsController.getOrderAmountStatistics)
 statisticsRouter
+    .get('/order-statistics-by-month', cors.cors, statisticsController.getOrderAmountStatisticsByMonth)
+statisticsRouter
     .get('/order-statistics/:userId', cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, statisticsController.getOrderAmountStatistics)
 statisticsRouter
     .get('/myorder-statistics/:userId', cors.cors, authenticate.verifyUser, statisticsController.getOrderAmountStatistics)

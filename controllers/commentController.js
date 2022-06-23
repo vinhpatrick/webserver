@@ -15,7 +15,7 @@ exports.getAllComments = async (req, res, next) => {
 }
 
 const _recalculateProductRating = async (productId) => {
-    //công thức=(tổng của số ratting*5)/(số ratting*5)
+    //công thức=(tổng sao của số ratting*5)/(số ratting*5)
     const allComments = await Comments.find({ product: productId })
         .select('ratting')
         .lean()
@@ -30,7 +30,7 @@ const _recalculateProductRating = async (productId) => {
 
     await Products.updateOne(
         { _id: productId },
-        { $set: { rating: Math.round(newProductRating) } },
+        { $set: { rating: Math.round(newProductRating) } },//làm tròn đến số nguyên gần nhất
     )
 }
 

@@ -16,7 +16,7 @@ exports.getCartItems = async (req, res, next) => {
         // const [product, ...rest] = cartitem
         // console.log('product', product._id);
         const uniqueProductIds = cartItems
-            .filter(
+            .filter( //trả về index của product
                 (item, index, self) =>
                     self.findIndex(
                         (vItem) => vItem.product._id.toString() === item.product._id.toString()
@@ -27,6 +27,7 @@ exports.getCartItems = async (req, res, next) => {
             .select('product name numberInStock')
             .lean()
         cartItems.forEach((item) => {
+            //trả về allsize phục vụ cho việc edit cart
             item.product.sizes = allSizes.filter(
                 (size) => size.product.toString() === item.product._id.toString()
             )

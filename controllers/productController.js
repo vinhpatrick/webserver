@@ -7,7 +7,7 @@ const Sizes = require('../models/size');
 //seacrh product
 const _searchProductsAndAttachSizes = async (query, page, limit, sort) => {
     const products = await Products.find(query)
-        .skip((page - 1) * limit)
+        .skip((page - 1) * limit) //xac dinh vi tri document bắt đầu lấy
         .limit(limit)
         .sort(sort)
         .lean()
@@ -26,7 +26,7 @@ const _searchProductsAndAttachSizes = async (query, page, limit, sort) => {
 const searchProducts = async (
     search = '',
     page = 1,
-    limit = 20,
+    limit = 50,
     sort = '-_id'
 ) => {
     const vPage = parseInt(page)
@@ -41,7 +41,7 @@ const searchProducts = async (
         Products.countDocuments(query),
     ])
 
-    const pages = Math.ceil(total / vLimit)
+    const pages = Math.ceil(total / vLimit)//làm tròn đến số nguyên lớn nhất
 
     return { products, total, pages, page: vPage }
 }
